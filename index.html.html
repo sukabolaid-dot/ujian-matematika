@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulasi Ujian Matematika TKA & ANBK</title>
+<style>
+:root{--bg:#eaf4ff;--card:#fff;--tx:#10243f;--mut:#4a6283;--pri:#0b63d1;--ok:#16a34a;--warn:#f5b301;--bad:#dc2626;--bd:#d5deec;--gray:#cbd5e1;--soft:#e1efff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f172a;--card:#1e293b;--tx:#e8eef9;--mut:#9fb0c9;--pri:#6b9bff;--bd:#334155;--gray:#475569;--soft:#27344d}}
+:root[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--tx:#e8eef9;--mut:#9fb0c9;--pri:#6b9bff;--bd:#334155;--gray:#475569;--soft:#27344d}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:1500px;margin:-84px auto 0;padding:0 24px 24px;position:relative}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:20px;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+h1,h2,h3,h4{margin:0 0 10px}h1{font-size:1.6rem}.mut{color:var(--mut)}
+.hero{text-align:center;max-width:480px;margin:6vh auto}.logo{font-size:3rem}
+label.f{display:block;margin:12px 0 4px;font-weight:600}
+input[type=text]{width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:11px 18px;border-radius:10px;min-height:44px}
+button.p{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+button.g{background:var(--ok);border-color:var(--ok);color:#fff;font-weight:600}
+button.on{background:var(--soft);border-color:var(--pri);color:var(--pri);font-weight:700}
+button.w.on2{background:var(--warn);border-color:var(--warn);color:#222;font-weight:700}
+button:disabled{opacity:.5}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}.sp{flex:1}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-bottom:4px solid var(--pri);border-radius:6px;padding:12px 18px;margin-bottom:14px}
+.top button{min-height:36px;padding:4px 12px;background:var(--soft);color:var(--pri);border-color:var(--bd);font-weight:700}
+.tm{font:700 1.3rem ui-monospace,monospace;background:var(--pri);color:#fff;padding:6px 16px;border-radius:6px}.tm.red{background:var(--bad);animation:bl 1s infinite}
+@keyframes bl{50%{opacity:.6}}
+.ex{display:grid;grid-template-columns:1fr 250px;gap:14px}
+@media(max-width:760px){.ex{grid-template-columns:1fr}}
+.qb{font-size:19px}[data-fs="0"] .qb{font-size:16px}[data-fs="2"] .qb{font-size:23px}
+.brand{background:linear-gradient(110deg,#0a4fa8,#2f8fff 60%,#1b6fd0);color:#fff;padding:22px 5vw 110px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.bl{display:flex;gap:14px;align-items:center;line-height:1.3}.lg0{width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.8rem}.bt{font-size:1.5rem}#usr{font-size:1.05rem}
+.qh{display:flex;justify-content:space-between;align-items:center;background:var(--pri);color:#fff;margin:-20px -20px 14px;padding:10px 20px;border-radius:8px 8px 0 0}
+.meta{font-size:.82rem;color:var(--mut);margin-bottom:10px}
+.tag{display:inline-block;background:var(--soft);color:var(--pri);border-radius:20px;padding:1px 10px;margin-right:6px;font-weight:600}
+.qt{margin:8px 0 14px;font-weight:500}
+.op{display:flex;gap:14px;align-items:center;padding:10px 8px;margin:6px 0;cursor:pointer;border-radius:10px}
+.op:hover{background:var(--soft)}.op input{appearance:none;-webkit-appearance:none;flex:none;margin:0;width:30px;height:30px;border:2px solid var(--gray);border-radius:50%;background:var(--card)}.op input[type=checkbox]{border-radius:7px}.op input:checked{background:var(--pri);box-shadow:inset 0 0 0 5px var(--card);border-color:var(--pri)}
+table.t{border-collapse:collapse;margin:8px 0;max-width:100%}table.t td,table.t th{border:1px solid var(--bd);padding:7px 14px;text-align:left}table.t th{background:var(--soft)}
+.bs td:not(:first-child){text-align:center}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.grid button{padding:0;min-height:42px;background:var(--gray);color:#111;border:2px solid transparent;font-weight:700}
+.grid button.d{background:var(--ok);color:#fff}.grid button.f{background:var(--warn);color:#222}.grid button.c{border-color:var(--pri);outline:2px solid var(--pri)}
+.lg{font-size:.8rem;margin-top:12px;color:var(--mut)}.lg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin:0 4px 0 8px;vertical-align:middle}
+.fb{border-radius:10px;padding:12px;margin-top:12px;border-left:5px solid}.fb.ok{background:#16a34a22;border-color:var(--ok)}.fb.no{background:#dc262622;border-color:var(--bad)}
+.score{font-size:4rem;font-weight:800;color:var(--pri);line-height:1}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.stat{flex:1;min-width:90px;background:var(--soft);border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:1.5rem}
+.bar{background:var(--gray);border-radius:20px;height:14px;overflow:hidden;margin:4px 0 12px}.bar>div{height:100%;background:var(--ok);transition:width .8s}
+.rv{border-left:5px solid var(--bad);margin:12px 0;padding:6px 14px;background:var(--bg);border-radius:8px}.rv.ok{border-color:var(--ok)}
+.eh{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.er{text-align:right}
+.pill{border:1px solid var(--bd);border-radius:30px;padding:10px 20px;background:var(--card);display:inline-block}.pill.b{background:#0a84ff;color:#fff;border-color:#0a84ff;font-weight:600}.pill.b2{background:#0b63d1;color:#fff;border:3px solid #7db8ff;font-weight:600}
+.pill .tm{background:none;color:inherit;padding:0;font:inherit;font-weight:700;border-radius:0}.pill .tm.red{background:none;color:var(--bad)}
+.sub{margin-top:12px;font-size:1.15rem}.fz button{border:none;background:none;padding:0 8px;min-height:30px;color:var(--tx)}
+hr{border:0;border-top:1px solid var(--bd);margin:14px 0}
+.mod{position:fixed;inset:0;background:#0007;display:flex;align-items:center;justify-content:center;z-index:9;padding:16px}.mod[hidden]{display:none}.mc{max-width:420px;width:100%}
+.split{display:grid;grid-template-columns:1fr 1fr}.stim{border-right:3px dotted var(--bd);padding:8px 26px 8px 6px}.qr{padding:8px 6px 8px 26px}.nv{grid-column:1/-1}
+@media(max-width:760px){.split{grid-template-columns:1fr}.stim{border-right:0;border-bottom:3px dotted var(--bd);padding:8px 0}.qr{padding:12px 0}.er{text-align:left}#app{padding:0 12px 16px}}
+@media print{.noprint{display:none!important}body{background:#fff}}
+</style></head><body><div class="brand"><div class="bl"><div class="lg0">🎓</div><div><b class="bt">SIMULASI MATEMATIKA</b><br>APLIKASI TKA &amp; ANBK</div></div><div id="usr"></div></div><div id="app"></div>
+<script>
+/* ============ BANK SOAL (mudah diedit: tambah objek baru) ============
+ j=jenjang m=materi t=tingkat tp=tipe(pg|pgk|bs|isian) s=stimulus q=soal o=opsi k=kunci p=pembahasan
+ pg: k=indeks opsi | pgk: k=array indeks | bs: k=array true/false per pernyataan | isian: k=angka */
+const TB="<table class=t><tr><th>Buah<th>Jumlah<tr><td>Apel<td>8<tr><td>Jeruk<td>12<tr><td>Mangga<td>5<tr><td>Pisang<td>10</table>";
+const TN="<table class=t><tr><th>Siswa<th>Nilai<tr><td>Ani<td>80<tr><td>Budi<td>70<tr><td>Cici<td>90<tr><td>Dedi<td>60<tr><td>Eka<td>100</table>";
+const BANK=[
+// ---------- SD ----------
+{j:"SD",m:"Operasi Bilangan",t:"mudah",tp:"pg",q:"245 + 378 = ...",o:["513","623","633","723"],k:1,p:"245 + 378 = 623."},
+{j:"SD",m:"Pecahan",t:"mudah",tp:"pg",q:"1/2 + 1/4 = ...",o:["2/6","3/4","1/6","3/8"],k:1,p:"1/2 = 2/4, sehingga 2/4 + 1/4 = 3/4."},
+{j:"SD",m:"Bangun Datar",t:"sedang",tp:"isian",q:"Sebuah persegi panjang berukuran panjang 12 cm dan lebar 8 cm. Keliling persegi panjang tersebut ... cm.",k:40,p:"K = 2 × (12 + 8) = 40 cm."},
+{j:"SD",m:"Bangun Datar",t:"sedang",tp:"pgk",q:"Pilih semua bangun datar yang memiliki 4 sisi.",o:["Persegi","Segitiga","Jajar genjang","Lingkaran","Trapesium"],k:[0,2,4],p:"Persegi, jajar genjang, dan trapesium memiliki 4 sisi."},
+{j:"SD",m:"Pengukuran",t:"sedang",tp:"bs",q:"Tentukan benar atau salah tiap pernyataan berikut.",o:["1 km = 1.000 m","2 kg = 200 g","3 jam = 180 menit"],k:[true,false,true],p:"2 kg = 2.000 g, jadi pernyataan kedua salah."},
+{j:"SD",m:"Pengukuran",t:"mudah",tp:"pg",q:"2,5 m = ... cm",o:["25","250","2.500","52"],k:1,p:"1 m = 100 cm, sehingga 2,5 × 100 = 250 cm."},
+{j:"SD",m:"Data Sederhana",t:"mudah",tp:"pg",s:TB,q:"Berdasarkan tabel, jumlah seluruh buah adalah ...",o:["30","35","40","45"],k:1,p:"8 + 12 + 5 + 10 = 35."},
+{j:"SD",m:"Data Sederhana",t:"sedang",tp:"isian",s:TB,q:"Jeruk lebih banyak ... buah daripada mangga.",k:7,p:"12 − 5 = 7."},
+{j:"SD",m:"Operasi Bilangan",t:"sedang",tp:"pg",q:"Ibu membeli 3 kg beras dengan harga Rp12.000 per kg. Total yang dibayar ibu adalah ...",o:["Rp34.000","Rp36.000","Rp38.000","Rp39.000"],k:1,p:"3 × 12.000 = 36.000."},
+{j:"SD",m:"Pecahan",t:"sulit",tp:"bs",q:"Tentukan benar atau salah.",o:["3/4 > 1/2","2/3 = 4/6","1/5 > 1/4"],k:[true,true,false],p:"1/5 < 1/4 karena penyebut lebih besar berarti bagian lebih kecil."},
+// ---------- SMP ----------
+{j:"SMP",m:"Aljabar",t:"mudah",tp:"pg",q:"Jika 2x + 5 = 17, maka nilai x adalah ...",o:["4","5","6","7"],k:2,p:"2x = 17 − 5 = 12, sehingga x = 6."},
+{j:"SMP",m:"Persamaan Linear",t:"sedang",tp:"pg",q:"Penyelesaian dari 5x − 4 = 3x + 6 adalah ...",o:["3","4","5","6"],k:2,p:"5x − 3x = 6 + 4 → 2x = 10 → x = 5."},
+{j:"SMP",m:"Geometri",t:"sedang",tp:"isian",q:"Segitiga siku-siku memiliki alas 6 cm dan tinggi 8 cm. Panjang sisi miringnya ... cm.",k:10,p:"√(6² + 8²) = √100 = 10."},
+{j:"SMP",m:"Geometri",t:"sedang",tp:"pgk",q:"Pilih semua pernyataan yang BENAR tentang persegi.",o:["Keempat sisinya sama panjang","Kedua diagonalnya sama panjang","Diagonalnya tidak berpotongan tegak lurus","Memiliki 4 sumbu simetri"],k:[0,1,3],p:"Diagonal persegi berpotongan tegak lurus, jadi opsi ketiga salah."},
+{j:"SMP",m:"Statistika",t:"sedang",tp:"bs",q:"Data: 4, 6, 6, 8, 10, 6. Tentukan benar atau salah.",o:["Modusnya 6","Rata-ratanya 6","Mediannya 6"],k:[true,false,true],p:"Rata-rata = 40/6 ≈ 6,67. Data terurut 4,6,6,6,8,10 → median = (6+6)/2 = 6."},
+{j:"SMP",m:"Peluang",t:"mudah",tp:"pg",q:"Sebuah dadu dilempar sekali. Peluang muncul mata dadu genap adalah ...",o:["1/6","1/3","1/2","2/3"],k:2,p:"Genap: 2, 4, 6 → 3/6 = 1/2."},
+{j:"SMP",m:"Statistika",t:"mudah",tp:"isian",s:TN,q:"Rata-rata nilai kelima siswa tersebut adalah ...",k:80,p:"(80+70+90+60+100)/5 = 400/5 = 80."},
+{j:"SMP",m:"Persamaan Linear",t:"sedang",tp:"pg",q:"Gradien garis y = 3x − 5 adalah ...",o:["−5","3","5","−3"],k:1,p:"Pada y = mx + c, gradien m = 3."},
+{j:"SMP",m:"Aljabar",t:"sedang",tp:"pg",q:"Bentuk sederhana dari 3a + 2b − a + 4b adalah ...",o:["2a + 6b","4a + 6b","2a + 2b","3a + 6b"],k:0,p:"(3a − a) + (2b + 4b) = 2a + 6b."},
+{j:"SMP",m:"Peluang",t:"sulit",tp:"isian",q:"Sebuah kantong berisi 3 bola merah, 5 biru, dan 2 kuning. Satu bola diambil acak. Peluang terambil bola merah adalah ... %.",k:30,p:"3/10 = 30%."},
+// ---------- SMA ----------
+{j:"SMA",m:"Fungsi",t:"mudah",tp:"pg",q:"Jika f(x) = x² − 2x + 1, maka f(3) = ...",o:["2","4","6","8"],k:1,p:"9 − 6 + 1 = 4."},
+{j:"SMA",m:"Trigonometri",t:"mudah",tp:"pg",q:"Nilai sin 30° adalah ...",o:["1/2","√2/2","√3/2","1"],k:0,p:"sin 30° = 1/2."},
+{j:"SMA",m:"Barisan & Deret",t:"sedang",tp:"isian",q:"Suku ke-10 dari barisan 3, 7, 11, ... adalah ...",k:39,p:"Un = a + (n−1)b = 3 + 9×4 = 39."},
+{j:"SMA",m:"Barisan & Deret",t:"sedang",tp:"pgk",q:"Pilih semua barisan aritmetika.",o:["2, 5, 8, 11","1, 2, 4, 8","10, 7, 4, 1","3, 3, 3, 3"],k:[0,2,3],p:"Barisan aritmetika memiliki beda tetap. Opsi kedua berpola kali 2 (geometri)."},
+{j:"SMA",m:"Limit",t:"sulit",tp:"bs",q:"Tentukan benar atau salah.",o:["lim x→2 (x² − 4)/(x − 2) = 4","lim x→∞ 1/x = 1","lim x→3 (2x + 1) = 7"],k:[true,false,true],p:"(x²−4)/(x−2) = x+2 → 4. lim 1/x untuk x→∞ adalah 0."},
+{j:"SMA",m:"Statistika",t:"mudah",tp:"pg",q:"Rata-rata dari data 2, 4, 4, 6, 9 adalah ...",o:["4","5","6","7"],k:1,p:"25/5 = 5."},
+{j:"SMA",m:"Peluang",t:"sedang",tp:"pg",q:"Tiga koin dilempar bersamaan. Peluang muncul tepat 2 gambar adalah ...",o:["1/8","3/8","1/2","5/8"],k:1,p:"Ada 3 kejadian (GGA, GAG, AGG) dari 8 kemungkinan → 3/8."},
+{j:"SMA",m:"Barisan & Deret",t:"sulit",tp:"isian",q:"Jumlah 5 suku pertama deret geometri dengan a = 2 dan r = 3 adalah ...",k:242,p:"S5 = 2(3⁵ − 1)/(3 − 1) = 242."},
+{j:"SMA",m:"Trigonometri",t:"sedang",tp:"pg",q:"Nilai cos 60° + sin 90° adalah ...",o:["1/2","1","3/2","2"],k:2,p:"1/2 + 1 = 3/2."},
+{j:"SMA",m:"Fungsi",t:"sulit",tp:"pg",q:"Diketahui f(x) = 2x + 1 dan g(x) = x². Nilai (f∘g)(3) adalah ...",o:["7","10","19","49"],k:2,p:"g(3) = 9, f(9) = 2·9 + 1 = 19."}
+];
+
+/* ============ LOGIKA ============ */
+const $=s=>document.querySelector(s),app=$("#app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const TL={pg:"Pilihan Ganda",pgk:"Pilihan Ganda Kompleks",bs:"Benar / Salah",isian:"Isian Singkat"};
+const DURASI=60,JUMLAH=36,L="ABCDEFGH";
+let S={name:"",kelas:"",jenjang:"SMP",mode:"simulasi",shuffle:true,fs:1},E=null,timer=null;
+const set=h=>{app.innerHTML=h;window.scrollTo(0,0);$("#usr").textContent=S.name?S.kelas+" - "+S.name:""};
+
+/* ===== GENERATOR SOAL: melengkapi bank hingga JUMLAH (36) soal per jenjang ===== */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),U=a=>[...new Set(a)];
+const PG=(j,m,t,q,c,w,p,s)=>{const o=shuf(U([c,...w].map(String)).slice(0,4));return{j,m,t,tp:"pg",q,s,o,k:o.indexOf(String(c)),p}};
+const IS=(j,m,t,q,k,p,s)=>({j,m,t,tp:"isian",q,s,k,p});
+const BS=(j,m,t,q,a,p)=>({j,m,t,tp:"bs",q,o:a.map(x=>x[0]),k:a.map(x=>x[1]),p});
+const PK=(j,m,t,q,a,p)=>{const b=shuf(a);return{j,m,t,tp:"pgk",q,o:b.map(x=>String(x[0])),k:b.flatMap((x,i)=>x[1]?[i]:[]),p}};
+const TBL=(h,n,v)=>`<table class=t><tr><th>${h}<th>Jumlah`+n.map((x,i)=>`<tr><td>${x}<td>${v[i]}`).join("")+"</table>";
+const S3=()=>{const f=R(0,1),x=R(3,9),y=R(3,9);return[`${x} × ${y} = ${x*y+(f?0:R(1,5))}`,!!f]};
+const S2=()=>{const f=R(0,1),a=R(3,12);return[`${a}² = ${a*a+(f?0:R(1,4))}`,!!f]};
+const L1=()=>{const f=R(0,1),c=R(2,6);return[`lim x→${c} (x² − ${c*c})/(x − ${c}) = ${2*c+(f?0:1)}`,!!f]};
+const L2=()=>{const f=R(0,1),p=R(2,5),d=R(2,6),q=R(1,5);return[`lim x→${d} (${p}x + ${q}) = ${p*d+q+(f?0:2)}`,!!f]};
+const GEN={
+SD:[
+()=>{const a=R(120,480),b=R(120,480),c=a+b;return PG("SD","Operasi Bilangan","mudah",`${a} + ${b} = ...`,c,[c+10,c-10,c+100,c-100],`${a} + ${b} = ${c}.`)},
+()=>{const a=R(500,900),b=R(100,450),c=a-b;return PG("SD","Operasi Bilangan","mudah",`${a} − ${b} = ...`,c,[c+10,c-10,c+100,c-100],`${a} − ${b} = ${c}.`)},
+()=>{const a=R(12,35),b=R(3,9),c=a*b;return PG("SD","Operasi Bilangan","sedang",`Sebuah kotak berisi ${a} permen. Ada ${b} kotak. Jumlah permen seluruhnya ...`,c,[c+a,c-b,c+10,c-10],`${a} × ${b} = ${c}.`)},
+()=>{const b=R(3,9),c=R(12,40);return IS("SD","Operasi Bilangan","sedang",`${b*c} permen dibagi sama banyak kepada ${b} anak. Setiap anak mendapat ... permen.`,c,`${b*c} : ${b} = ${c}.`)},
+()=>{const n=R(6,12),a=R(1,3),b=R(1,3),c=`${a+b}/${n}`;return PG("SD","Pecahan","sedang",`${a}/${n} + ${b}/${n} = ...`,c,[`${a+b}/${2*n}`,`${a+b+1}/${n}`,`${a*b}/${n}`,`${a+b+2}/${n}`],`Penyebut sama, jumlahkan pembilang: ${c}.`)},
+()=>{const p=R(6,20),l=R(3,p-1);return IS("SD","Bangun Datar","sedang",`Persegi panjang berukuran ${p} cm × ${l} cm. Luasnya ... cm².`,p*l,`L = ${p} × ${l} = ${p*l}.`)},
+()=>{const v=[R(5,20),R(5,20),R(5,20),R(5,20)],c=v[0]+v[1]+v[2]+v[3];return PG("SD","Data Sederhana","mudah","Berdasarkan tabel, jumlah seluruh buah adalah ...",c,[c+1,c-1,c+5,c-5],`Jumlahkan semua data = ${c}.`,TBL("Buah",["Apel","Jeruk","Mangga","Pisang"],v))},
+()=>{const n=R(2,5);return PK("SD","Operasi Bilangan","sedang",`Pilih semua bilangan kelipatan ${n}.`,[[n*R(2,5),1],[n*R(6,9),1],[n*R(10,12)+1,0],[n*R(2,8)+1,0]],`Kelipatan ${n} habis dibagi ${n}.`)},
+()=>BS("SD","Operasi Bilangan","sedang","Tentukan benar atau salah.",[S3(),S3(),S3()],"Hitung hasil kali tiap pernyataan lalu bandingkan.")
+],
+SMP:[
+()=>{const x=R(2,12),a=R(2,6),b=R(1,15);return PG("SMP","Persamaan Linear","sedang",`Penyelesaian dari ${a}x + ${b} = ${a*x+b} adalah x = ...`,x,[x+1,x-1,x+2,x*2],`${a}x = ${a*x}, sehingga x = ${x}.`)},
+()=>{const p=R(2,6),q=R(2,9);return PG("SMP","Aljabar","sedang",`Bentuk ${p}(x + ${q}) sama dengan ...`,`${p}x + ${p*q}`,[`${p}x + ${q}`,`x + ${p*q}`,`${p+q}x`,`${p}x + ${p+q}`],`Sifat distributif: ${p}x + ${p*q}.`)},
+()=>{const t=[[3,4,5],[5,12,13],[8,15,17],[6,8,10],[9,12,15]][R(0,4)];return IS("SMP","Geometri","sedang",`Segitiga siku-siku memiliki sisi tegak ${t[0]} cm dan ${t[1]} cm. Panjang sisi miringnya ... cm.`,t[2],`√(${t[0]}² + ${t[1]}²) = ${t[2]}.`)},
+()=>{const a=R(4,10),b=R(11,16),t=2*R(2,6),L=(a+b)*t/2;return IS("SMP","Geometri","sulit",`Trapesium memiliki sisi sejajar ${a} cm dan ${b} cm serta tinggi ${t} cm. Luasnya ... cm².`,L,`L = (${a}+${b}) × ${t} / 2 = ${L}.`)},
+()=>{const m=R(60,90),d=[R(-9,9),R(-9,9),R(-9,9),R(-9,9)];d.push(-d[0]-d[1]-d[2]-d[3]);return IS("SMP","Statistika","mudah",`Rata-rata dari data ${shuf(d.map(x=>m+x)).join(", ")} adalah ...`,m,`Jumlah data = ${5*m}, dibagi 5 = ${m}.`)},
+()=>{const r=R(2,7),b=R(2,7);return PG("SMP","Peluang","sedang",`Kantong berisi ${r} bola merah dan ${b} bola biru. Satu bola diambil acak. Peluang terambil bola merah adalah ...`,`${r}/${r+b}`,[`${b}/${r+b}`,`${r}/${b}`,`${r+b}/${r}`],`Peluang = ${r} dari ${r+b} bola.`)},
+()=>{const m=R(2,6),c=R(1,9);return PG("SMP","Persamaan Linear","sedang",`Garis melalui titik (0, ${c}) dan (2, ${c+2*m}). Gradien garis tersebut adalah ...`,m,[c,2*m,m+1,m+2],`Gradien = ${2*m}/2 = ${m}.`)},
+()=>{const x=R(2,9),k=R(2,5),a=R(1,5);return PK("SMP","Aljabar","sulit",`Pilih semua persamaan yang memiliki penyelesaian x = ${x}.`,[[`x + ${a} = ${x+a}`,1],[`${k}x = ${k*x}`,1],[`x − ${a} = ${x+a+1}`,0],[`${k}x = ${k*x+1}`,0]],`Substitusikan x = ${x} ke tiap persamaan.`)},
+()=>BS("SMP","Aljabar","mudah","Tentukan benar atau salah.",[S2(),S2(),S2()],"Hitung kuadrat tiap bilangan.")
+],
+SMA:[
+()=>{const a=R(2,6),b=R(1,9),c=R(2,9),v=a*c+b;return PG("SMA","Fungsi","mudah",`Jika f(x) = ${a}x + ${b}, maka f(${c}) = ...`,v,[v+a,v-b,v+b,a+b+c],`f(${c}) = ${a}·${c} + ${b} = ${v}.`)},
+()=>{const T=[["0",0],["1/2",30],["√2/2",45],["√3/2",60],["1",90]],i=R(0,4);return PG("SMA","Trigonometri","mudah",`Nilai sin ${T[i][1]}° adalah ...`,T[i][0],T.filter((x,j)=>j!=i).map(x=>x[0]),`Sudut istimewa: sin ${T[i][1]}° = ${T[i][0]}.`)},
+()=>{const a=R(2,9),b=R(2,6),n=R(8,15);return IS("SMA","Barisan & Deret","sedang",`Suku ke-${n} dari barisan ${a}, ${a+b}, ${a+2*b}, ... adalah ...`,a+(n-1)*b,`Un = a + (n−1)b = ${a} + ${n-1}×${b} = ${a+(n-1)*b}.`)},
+()=>{const a=R(2,6),b=R(2,5),n=2*R(3,6),s=n*(2*a+(n-1)*b)/2;return IS("SMA","Barisan & Deret","sulit",`Jumlah ${n} suku pertama deret ${a} + ${a+b} + ${a+2*b} + ... adalah ...`,s,`Sn = n/2·(2a + (n−1)b) = ${s}.`)},
+()=>{const a=R(1,4),r=R(2,3),n=R(4,6),u=a*r**(n-1);return IS("SMA","Barisan & Deret","sedang",`Barisan geometri memiliki suku pertama ${a} dan rasio ${r}. Suku ke-${n} adalah ...`,u,`Un = a·r^(n−1) = ${a}×${r}^${n-1} = ${u}.`)},
+()=>BS("SMA","Limit","sulit","Tentukan benar atau salah.",[L1(),L2(),L2()],"Faktorkan atau substitusi langsung pada tiap limit."),
+()=>{const v=Array.from({length:5},()=>R(3,20)),m=[...v].sort((x,y)=>x-y)[2];return IS("SMA","Statistika","sedang",`Median dari data ${v.join(", ")} adalah ...`,m,`Urutkan data; nilai tengah = ${m}.`)},
+()=>{const n=R(2,12),c=6-Math.abs(7-n);return PG("SMA","Peluang","sulit",`Dua dadu dilempar bersamaan. Peluang jumlah kedua mata dadu sama dengan ${n} adalah ...`,`${c}/36`,[`${c+1}/36`,`${c+2}/36`,`${c}/12`,`${c+3}/36`],`Ada ${c} pasangan dari 36 kemungkinan.`)},
+()=>{const a=R(2,6),b=R(2,5);return PK("SMA","Barisan & Deret","sulit",`Barisan ${a}, ${a+b}, ${a+2*b}, ... Pilih semua bilangan yang merupakan suku barisan tersebut.`,[[a+4*b,1],[a+7*b,1],[a+4*b+1,0],[a+7*b-1,0]],`Suku barisan berbentuk ${a} + n·${b}.`)}
+]};
+for(const j in GEN){let i=0;while(BANK.filter(q=>q.j===j).length<JUMLAH)BANK.push(GEN[j][i++%GEN[j].length]())}
+
+function pLogin(){set(`<div class="card hero"><div class="logo">📐</div><h1>Simulasi Ujian Matematika</h1>
+<p class="mut">Jenjang <b>${S.jenjang}</b> · Mode <b>${S.mode==="simulasi"?"Simulasi":"Latihan"}</b></p><h3 style="margin-top:10px">Data Peserta</h3>
+<div style="text-align:left"><label class="f">Nama Lengkap</label><input type="text" id="nm" value="${esc(S.name)}" placeholder="Contoh: Siti Aminah">
+<label class="f">Kelas</label><input type="text" id="kl" value="${esc(S.kelas)}" placeholder="Contoh: 9A"></div>
+<div class="row"><button onclick="pPick()">← Kembali</button><button class="p sp" onclick="doLogin()">Lanjut →</button></div></div>`)}
+function doLogin(){S.name=$("#nm").value.trim();S.kelas=$("#kl").value.trim();
+if(!S.name||!S.kelas)return alert("Nama dan kelas wajib diisi.");pInfo()}
+
+function pInfo(){set(`<div class="card" style="max-width:640px;margin:4vh auto"><h2>Petunjuk Ujian</h2>
+<p>Halo, <b>${esc(S.name)}</b> (${esc(S.kelas)}). Baca petunjuk berikut:</p>
+<ol><li>Setiap jenjang berisi <b>${JUMLAH} soal</b> dengan durasi <b>${DURASI} menit</b>.</li>
+<li>Jenis soal: pilihan ganda, pilihan ganda kompleks, benar/salah, dan isian singkat.</li>
+<li>Gunakan tombol <b>Ragu-ragu</b> untuk menandai soal yang ingin dicek ulang.</li>
+<li>Mode <b>Simulasi</b>: pembahasan muncul setelah ujian selesai. Mode <b>Latihan</b>: pembahasan muncul setelah menekan Periksa.</li>
+<li>Ujian otomatis dikumpulkan saat waktu habis. Jangan menyegarkan halaman, karena progres akan hilang.</li></ol>
+<div class="row"><button onclick="pLogin()">← Kembali</button><span class="sp"></span><button class="p" onclick="pData()">Lanjut →</button></div></div>`)}
+
+function pPick(){const c=(k,v,t)=>`<button class="${S[k]===v?'on':''}" onclick="S.${k}='${v}';pPick()">${t}</button>`;
+set(`<div class="card" style="max-width:640px;margin:4vh auto"><div style="text-align:center"><div class="logo">📐</div><h1>Simulasi Ujian Matematika</h1><p class="mut">Gaya TKA & ANBK · latihan berbasis komputer</p></div><h2>Pilih Jenjang & Mode</h2>
+<label class="f">Jenjang</label><div class="chips">${c('jenjang','SD','SD')}${c('jenjang','SMP','SMP')}${c('jenjang','SMA','SMA')}</div>
+<label class="f">Mode</label><div class="chips">${c('mode','simulasi','⏱️ Simulasi')}${c('mode','latihan','📝 Latihan')}</div>
+<label class="f"><input type="checkbox" ${S.shuffle?'checked':''} onchange="S.shuffle=this.checked"> Acak urutan soal & opsi</label>
+<div class="row"><span class="sp"></span><button class="p" onclick="pLogin()">Lanjut →</button></div></div>`)}
+
+function pData(){const r=(a,b)=>`<tr><td class="mut">${a}<td><b>${b}</b>`;
+set(`<div class="card" style="max-width:640px;margin:4vh auto"><h2>Konfirmasi Data Peserta</h2>
+<p class="mut">Pastikan data berikut sudah benar sebelum memulai ujian.</p>
+<table class="t" style="width:100%">${r("Nama",esc(S.name))}${r("Kelas",esc(S.kelas))}${r("Jenjang",S.jenjang)}${r("Mode",S.mode==="simulasi"?"Simulasi":"Latihan")}${r("Jumlah Soal",JUMLAH)}${r("Durasi",DURASI+" menit")}${r("Acak Soal & Opsi",S.shuffle?"Ya":"Tidak")}</table>
+<div class="row"><button onclick="pPick()">Ubah Jenjang</button><button onclick="pLogin()">Ubah Data Diri</button><span class="sp"></span><button class="g" onclick="start()">Mulai Ujian ▶</button></div></div>`)}
+function start(){
+let qs=BANK.map((q,i)=>({...q,id:i+1})).filter(q=>q.j===S.jenjang);
+if(S.shuffle)qs=shuf(qs);
+qs=qs.map(q=>({...q,ord:!q.o?[]:(S.shuffle&&q.tp!=="bs"?shuf(q.o.map((_,i)=>i)):q.o.map((_,i)=>i))}));
+E={qs,ans:{},flag:{},chk:{},i:0,left:DURASI*60};
+clearInterval(timer);timer=setInterval(tick,1000);
+window.onbeforeunload=e=>{e.preventDefault();return ""};pExam()}
+
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+function tick(){E.left--;const t=$("#tm");if(t){t.textContent=fmt(Math.max(E.left,0));t.classList.toggle("red",E.left<=300)}
+if(E.left<=0)finish()}
+
+const cq=()=>E.qs[E.i];
+function answered(q){const a=E.ans[q.id];
+if(a===undefined)return false;
+return q.tp==="pgk"?a.length>0:q.tp==="bs"?Object.keys(a).length===q.o.length:q.tp==="isian"?String(a).trim()!=="":true}
+function correct(q){const a=E.ans[q.id];if(!answered(q))return false;
+if(q.tp==="pg")return a===q.k;
+if(q.tp==="pgk")return a.length===q.k.length&&q.k.every(x=>a.includes(x));
+if(q.tp==="bs")return q.k.every((v,i)=>a[i]===v);
+return Number(String(a).replace(",",".").trim())===q.k}
+const bsT=(q,a)=>q.o.map((x,i)=>`${esc(x)} → <b>${a[i]===undefined?"–":a[i]?"Benar":"Salah"}</b>`).join("<br>");
+function keyTxt(q){return q.tp==="pg"?L[q.ord.indexOf(q.k)]+". "+esc(q.o[q.k]):q.tp==="pgk"?q.k.map(i=>esc(q.o[i])).join("; "):q.tp==="bs"?bsT(q,q.k):q.k}
+function usrTxt(q){const a=E.ans[q.id];if(!answered(q))return "<i>Tidak dijawab</i>";
+return q.tp==="pg"?L[q.ord.indexOf(a)]+". "+esc(q.o[a]):q.tp==="pgk"?a.map(i=>esc(q.o[i])).join("; "):q.tp==="bs"?bsT(q,a):esc(a)}
+
+function pExam(){const jj=S.jenjang==="SD"?"SD/MI":S.jenjang==="SMP"?"SMP/MTs":"SMA/MA";set(`<div data-fs="${S.fs}" class="card" style="padding:24px 28px"><div class="eh"><div><h2 style="font-weight:400;font-size:1.6rem;margin:0 0 8px">Soal nomor <span id="no"></span></h2>
+<div class="fz">Ukuran font soal: <button onclick="fs(0)" style="font-size:12px">A</button><button onclick="fs(1)" style="font-size:18px">A</button><button onclick="fs(2)" style="font-size:24px">A</button></div></div>
+<div class="er"><div class="chips" style="justify-content:flex-end"><button class="pill b" onclick="info()">INFORMASI SOAL</button><span class="pill">Sisa Waktu : <b class="tm" id="tm">${fmt(E.left)}</b></span><button class="pill b2" onclick="$('#dlm').hidden=false">Daftar Soal ▦</button></div>
+<div class="sub">Numerasi - ${jj}/${S.mode==="simulasi"?"SIMULASI":"LATIHAN"}</div></div></div><hr><div id="qc"></div></div>
+<div class="mod" id="dlm" hidden onclick="if(event.target===this)this.hidden=true"><div class="card mc"><h3>Daftar Soal</h3><div class="grid" id="gr"></div>
+<div class="lg"><i style="background:var(--gray)"></i>Belum<i style="background:var(--ok)"></i>Dijawab<i style="background:var(--warn)"></i>Ragu</div>
+<div class="row"><button class="sp" onclick="$('#dlm').hidden=true">Tutup</button></div></div></div>`);
+rQ();nav()}
+function info(){const q=cq();alert("Materi: "+q.m+"\nTingkat: "+q.t+"\nJenis soal: "+TL[q.tp]+"\nSoal "+(E.i+1)+" dari "+E.qs.length)}
+function fs(n){S.fs=n;$("[data-fs]").dataset.fs=n}
+function nav(){$("#gr").innerHTML=E.qs.map((q,i)=>`<button class="${E.flag[q.id]?'f':answered(q)?'d':''} ${i===E.i?'c':''}" onclick="go(${i})">${i+1}</button>`).join("")}
+function go(i){E.i=i;rQ();nav();const m=$("#dlm");if(m)m.hidden=true}
+
+function rQ(){const q=cq(),a=E.ans[q.id],lock=E.chk[q.id]?"disabled":"";let inp="";
+if(q.tp==="pg")inp=q.ord.map((oi,p)=>`<label class="op"><input type="radio" name="r" ${a===oi?'checked':''} ${lock} onchange="sA(${oi})"><span>${esc(q.o[oi])}</span></label>`).join("");
+if(q.tp==="pgk")inp=`<p class="mut">Pilih lebih dari satu jawaban jika perlu.</p>`+q.ord.map((oi,p)=>`<label class="op"><input type="checkbox" ${a&&a.includes(oi)?'checked':''} ${lock} onchange="sK(${oi})"><span>${esc(q.o[oi])}</span></label>`).join("");
+if(q.tp==="bs")inp=`<table class="t bs" style="width:100%"><tr><th>Pernyataan<th>Benar<th>Salah</tr>`+q.o.map((x,i)=>`<tr><td>${esc(x)}<td><input type="radio" name="b${i}" ${a&&a[i]===true?'checked':''} ${lock} onchange="sB(${i},true)"><td><input type="radio" name="b${i}" ${a&&a[i]===false?'checked':''} ${lock} onchange="sB(${i},false)"></tr>`).join("")+`</table>`;
+if(q.tp==="isian")inp=`<input type="text" inputmode="decimal" placeholder="Ketik jawaban angka" value="${a?esc(a):''}" ${lock} oninput="sI(this.value)" style="max-width:260px">`;
+const last=E.i===E.qs.length-1;
+let fb="";if(E.chk[q.id]){const ok=correct(q);fb=`<div class="fb ${ok?'ok':'no'}"><b>${ok?'✅ Jawaban benar!':'❌ Belum tepat.'}</b><br>Kunci: ${keyTxt(q)}<br><br><b>Pembahasan:</b> ${q.p}</div>`}
+$("#no").textContent=E.i+1;const c=$("#qc");c.className="qb"+(q.s?" split":"");
+c.innerHTML=`${q.s?`<div class="stim"><h3 style="text-align:center;margin-bottom:14px">${q.m}</h3>${q.s}</div>`:""}<div class="qr"><div class="qt">${q.q}</div>${inp}${fb}</div>
+<div class="row noprint nv"><button ${E.i?'':'disabled'} onclick="go(E.i-1)">← Sebelumnya</button>
+<button class="w ${E.flag[q.id]?'on2':''}" onclick="flg()">⚑ Ragu-ragu</button>
+${S.mode==='latihan'&&!E.chk[q.id]?'<button class="p" onclick="chk()">Periksa</button>':''}<span class="sp"></span>
+${last?'<button class="g" onclick="pConfirm()">Selesai ✔</button>':'<button class="p" onclick="go(E.i+1)">Selanjutnya →</button>'}</div>`}
+const id=()=>cq().id;
+function sA(v){E.ans[id()]=v;nav()}
+function sK(v){const a=E.ans[id()]||[];const i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);E.ans[id()]=a;nav()}
+function sB(i,v){(E.ans[id()]=E.ans[id()]||{})[i]=v;nav()}
+function sI(v){E.ans[id()]=v;nav()}
+function flg(){E.flag[id()]=!E.flag[id()];rQ();nav()}
+function chk(){if(!answered(cq()))return alert("Jawab dulu sebelum memeriksa.");E.chk[id()]=1;rQ()}
+
+function pConfirm(){const n=E.qs.length,d=E.qs.filter(answered).length,f=Object.values(E.flag).filter(Boolean).length;
+set(`<div class="card" style="max-width:560px;margin:6vh auto"><h2>Konfirmasi Selesai</h2>
+<div class="stats"><div class="stat"><b>${d}</b>Dijawab</div><div class="stat"><b>${n-d}</b>Kosong</div><div class="stat"><b>${f}</b>Ragu-ragu</div></div>
+${n-d?`<p style="color:var(--bad)">⚠️ Masih ada <b>${n-d}</b> soal belum dijawab.</p>`:''}
+<p class="mut">Sisa waktu: <b id="tm2">${fmt(E.left)}</b>. Setelah dikumpulkan, jawaban tidak dapat diubah.</p>
+<div class="row"><button onclick="pExam()">← Kembali ke Soal</button><span class="sp"></span><button class="g" onclick="finish()">Ya, Kumpulkan</button></div></div>`)}
+
+function finish(){clearInterval(timer);window.onbeforeunload=null;pResult()}
+
+function pResult(){const n=E.qs.length,res=E.qs.map(q=>({q,ok:correct(q),ans:answered(q)}));
+const b=res.filter(r=>r.ok).length,k=res.filter(r=>!r.ans).length,s=res.length-b-k,score=Math.round(b/n*100);
+const M={};res.forEach(r=>{(M[r.q.m]=M[r.q.m]||{b:0,n:0});M[r.q.m].n++;if(r.ok)M[r.q.m].b++});
+const mm=Object.entries(M).map(([m,v])=>({m,p:Math.round(v.b/v.n*100),...v})).sort((x,y)=>y.p-x.p);
+const best=mm.filter(x=>x.p===mm[0].p).map(x=>x.m).join(", "),worst=mm.filter(x=>x.p===mm[mm.length-1].p).map(x=>x.m).join(", ");
+const msg=score>=80?"Hebat! Pertahankan.":score>=60?"Cukup baik, terus berlatih.":"Ayo belajar lagi, kamu pasti bisa!";
+set(`<div class="card"><div style="text-align:center"><p class="mut">Hasil ${esc(S.name)} · ${esc(S.kelas)} · ${S.jenjang}</p><div class="score">${score}</div><p>${msg}</p></div>
+<div class="stats"><div class="stat" style="color:var(--ok)"><b>${b}</b>Benar</div><div class="stat" style="color:var(--bad)"><b>${s}</b>Salah</div><div class="stat"><b>${k}</b>Kosong</div></div>
+<h3>Skor per Materi</h3>${mm.map(x=>`<div><div style="display:flex;justify-content:space-between"><span>${x.m}</span><b>${x.p}% (${x.b}/${x.n})</b></div><div class="bar"><div style="width:${x.p}%"></div></div></div>`).join("")}
+<div class="fb ok"><b>Materi terkuat:</b> ${best}</div>
+<div class="fb no"><b>Perlu diperbaiki:</b> ${worst}</div>
+<div class="row noprint"><button class="p" onclick="start()">🔁 Ulangi Ujian</button><button onclick="pPick()">Ganti Jenjang/Mode</button><button onclick="pPick()">🏠 Beranda</button><button onclick="window.print()">🖨️ Cetak Hasil</button></div></div>
+<div class="card" style="margin-top:14px"><h3>Pembahasan</h3>${res.map((r,i)=>`<div class="rv ${r.ok?'ok':''}"><b>${i+1}. ${r.ok?'✅ Benar':r.ans?'❌ Salah':'⬜ Kosong'}</b> <span class="mut">· ${r.q.m}</span>
+${r.q.s||""}<div>${r.q.q}</div><div>Jawabanmu: ${usrTxt(r.q)}</div><div>Kunci: ${keyTxt(r.q)}</div><div class="mut"><b>Pembahasan:</b> ${r.q.p}</div></div>`).join("")}</div>`)}
+
+pPick();
+</script></body></html>
