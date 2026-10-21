@@ -62,27 +62,37 @@ hr{border:0;border-top:1px solid var(--bd);margin:14px 0}
 /* ============ BANK SOAL (mudah diedit: tambah objek baru) ============
  j=jenjang m=materi t=tingkat tp=tipe(pg|pgk|bs|isian) s=stimulus q=soal o=opsi k=kunci p=pembahasan
  pg: k=indeks opsi | pgk: k=array indeks | bs: k=array true/false per pernyataan | isian: k=angka */
-const TB="<table class=t><tr><th>Buah<th>Jumlah<tr><td>Apel<td>8<tr><td>Jeruk<td>12<tr><td>Mangga<td>5<tr><td>Pisang<td>10</table>";
-const TN="<table class=t><tr><th>Siswa<th>Nilai<tr><td>Ani<td>80<tr><td>Budi<td>70<tr><td>Cici<td>90<tr><td>Dedi<td>60<tr><td>Eka<td>100</table>";
+/* ===== ILUSTRASI SVG & EMOJI (dipakai sebagai stimulus soal) ===== */
+const SV=(w,h,b)=>`<svg viewBox="0 0 ${w} ${h}" style="width:${w}px;max-width:100%;display:block;margin:10px auto" font-size="14" fill="currentColor" font-family="system-ui,sans-serif">${b}</svg>`;
+const ST='stroke="currentColor" stroke-width="2" fill="#4da3ff44"';
+const TX=(x,y,t,a="middle")=>`<text x="${x}" y="${y}" text-anchor="${a}">${t}</text>`;
+const rect=(p,l)=>{const w=190,h=Math.max(50,Math.min(130,w*l/p));return SV(290,h+50,`<rect x="35" y="25" width="${w}" height="${h}" ${ST}/>${TX(130,18,p+" cm")}${TX(232,25+h/2+5,l+" cm","start")}`)};
+const tri=(a,b)=>{const s=150/Math.max(a,b),A=a*s,B=b*s;return SV(290,A+55,`<polygon points="75,25 75,${25+A} ${75+B},${25+A}" ${ST}/><path d="M75 ${13+A}h12v12" fill="none" stroke="currentColor"/>${TX(67,25+A/2+5,a+" cm","end")}${TX(75+B/2,25+A+22,b+" cm")}${TX(75+B/2+10,25+A/2-4,"?","start")}`)};
+const trap=(a,b,t)=>{const s=200/b,ta=a*s,th=Math.max(50,Math.min(110,t*s)),o=(200-ta)/2;return SV(290,th+55,`<polygon points="${40+o},25 ${40+o+ta},25 240,${25+th} 40,${25+th}" ${ST}/>${TX(140,18,a+" cm")}${TX(140,25+th+20,b+" cm")}<line x1="${40+o}" y1="25" x2="${40+o}" y2="${25+th}" stroke="currentColor" stroke-dasharray="4"/>${TX(46+o,25+th/2+5,t+" cm","start")}`)};
+const bars=(n,v)=>{const m=Math.max(...v),w=260/n;return SV(300,185,`<line x1="30" y1="150" x2="290" y2="150" stroke="currentColor"/>`+v.map((x,i)=>{const h=x/m*110,X=35+i*w,c=X+(w-14)/2;return `<rect x="${X}" y="${150-h}" width="${w-14}" height="${h}" fill="#2f8fff"/>`+TX(c,144-h,x)+TX(c,170,n[i])}).join(""))};
+const balls=(r,b)=>{const c=(n,col,y)=>Array.from({length:n},(_,i)=>`<circle cx="${30+i*34}" cy="${y}" r="14" fill="${col}"/>`).join("");return SV(280,110,c(r,"#e5484d",30)+c(b,"#2f8fff",75))};
+const ico=(e,n)=>`<div style="font-size:30px;text-align:center;line-height:1.4">${e.repeat(n)}</div>`;
+const TB="<table class=t><tr><th>Buah<th>Jumlah<tr><td>Apel<td>8<tr><td>Jeruk<td>12<tr><td>Mangga<td>5<tr><td>Pisang<td>10</table>"+bars(["Apel","Jeruk","Mangga","Pisang"],[8,12,5,10]);
+const TN="<table class=t><tr><th>Siswa<th>Nilai<tr><td>Ani<td>80<tr><td>Budi<td>70<tr><td>Cici<td>90<tr><td>Dedi<td>60<tr><td>Eka<td>100</table>"+bars(["Ani","Budi","Cici","Dedi","Eka"],[80,70,90,60,100]);
 const BANK=[
 // ---------- SD ----------
 {j:"SD",m:"Operasi Bilangan",t:"mudah",tp:"pg",q:"245 + 378 = ...",o:["513","623","633","723"],k:1,p:"245 + 378 = 623."},
 {j:"SD",m:"Pecahan",t:"mudah",tp:"pg",q:"1/2 + 1/4 = ...",o:["2/6","3/4","1/6","3/8"],k:1,p:"1/2 = 2/4, sehingga 2/4 + 1/4 = 3/4."},
-{j:"SD",m:"Bangun Datar",t:"sedang",tp:"isian",q:"Sebuah persegi panjang berukuran panjang 12 cm dan lebar 8 cm. Keliling persegi panjang tersebut ... cm.",k:40,p:"K = 2 × (12 + 8) = 40 cm."},
+{j:"SD",m:"Bangun Datar",t:"sedang",tp:"isian",s:rect(12,8),q:"Sebuah persegi panjang berukuran panjang 12 cm dan lebar 8 cm. Keliling persegi panjang tersebut ... cm.",k:40,p:"K = 2 × (12 + 8) = 40 cm."},
 {j:"SD",m:"Bangun Datar",t:"sedang",tp:"pgk",q:"Pilih semua bangun datar yang memiliki 4 sisi.",o:["Persegi","Segitiga","Jajar genjang","Lingkaran","Trapesium"],k:[0,2,4],p:"Persegi, jajar genjang, dan trapesium memiliki 4 sisi."},
 {j:"SD",m:"Pengukuran",t:"sedang",tp:"bs",q:"Tentukan benar atau salah tiap pernyataan berikut.",o:["1 km = 1.000 m","2 kg = 200 g","3 jam = 180 menit"],k:[true,false,true],p:"2 kg = 2.000 g, jadi pernyataan kedua salah."},
 {j:"SD",m:"Pengukuran",t:"mudah",tp:"pg",q:"2,5 m = ... cm",o:["25","250","2.500","52"],k:1,p:"1 m = 100 cm, sehingga 2,5 × 100 = 250 cm."},
 {j:"SD",m:"Data Sederhana",t:"mudah",tp:"pg",s:TB,q:"Berdasarkan tabel, jumlah seluruh buah adalah ...",o:["30","35","40","45"],k:1,p:"8 + 12 + 5 + 10 = 35."},
 {j:"SD",m:"Data Sederhana",t:"sedang",tp:"isian",s:TB,q:"Jeruk lebih banyak ... buah daripada mangga.",k:7,p:"12 − 5 = 7."},
-{j:"SD",m:"Operasi Bilangan",t:"sedang",tp:"pg",q:"Ibu membeli 3 kg beras dengan harga Rp12.000 per kg. Total yang dibayar ibu adalah ...",o:["Rp34.000","Rp36.000","Rp38.000","Rp39.000"],k:1,p:"3 × 12.000 = 36.000."},
+{j:"SD",m:"Operasi Bilangan",t:"sedang",tp:"pg",s:ico("🍚",3),q:"Ibu membeli 3 kg beras dengan harga Rp12.000 per kg. Total yang dibayar ibu adalah ...",o:["Rp34.000","Rp36.000","Rp38.000","Rp39.000"],k:1,p:"3 × 12.000 = 36.000."},
 {j:"SD",m:"Pecahan",t:"sulit",tp:"bs",q:"Tentukan benar atau salah.",o:["3/4 > 1/2","2/3 = 4/6","1/5 > 1/4"],k:[true,true,false],p:"1/5 < 1/4 karena penyebut lebih besar berarti bagian lebih kecil."},
 // ---------- SMP ----------
 {j:"SMP",m:"Aljabar",t:"mudah",tp:"pg",q:"Jika 2x + 5 = 17, maka nilai x adalah ...",o:["4","5","6","7"],k:2,p:"2x = 17 − 5 = 12, sehingga x = 6."},
 {j:"SMP",m:"Persamaan Linear",t:"sedang",tp:"pg",q:"Penyelesaian dari 5x − 4 = 3x + 6 adalah ...",o:["3","4","5","6"],k:2,p:"5x − 3x = 6 + 4 → 2x = 10 → x = 5."},
-{j:"SMP",m:"Geometri",t:"sedang",tp:"isian",q:"Segitiga siku-siku memiliki alas 6 cm dan tinggi 8 cm. Panjang sisi miringnya ... cm.",k:10,p:"√(6² + 8²) = √100 = 10."},
+{j:"SMP",m:"Geometri",t:"sedang",tp:"isian",s:tri(8,6),q:"Segitiga siku-siku memiliki alas 6 cm dan tinggi 8 cm. Panjang sisi miringnya ... cm.",k:10,p:"√(6² + 8²) = √100 = 10."},
 {j:"SMP",m:"Geometri",t:"sedang",tp:"pgk",q:"Pilih semua pernyataan yang BENAR tentang persegi.",o:["Keempat sisinya sama panjang","Kedua diagonalnya sama panjang","Diagonalnya tidak berpotongan tegak lurus","Memiliki 4 sumbu simetri"],k:[0,1,3],p:"Diagonal persegi berpotongan tegak lurus, jadi opsi ketiga salah."},
 {j:"SMP",m:"Statistika",t:"sedang",tp:"bs",q:"Data: 4, 6, 6, 8, 10, 6. Tentukan benar atau salah.",o:["Modusnya 6","Rata-ratanya 6","Mediannya 6"],k:[true,false,true],p:"Rata-rata = 40/6 ≈ 6,67. Data terurut 4,6,6,6,8,10 → median = (6+6)/2 = 6."},
-{j:"SMP",m:"Peluang",t:"mudah",tp:"pg",q:"Sebuah dadu dilempar sekali. Peluang muncul mata dadu genap adalah ...",o:["1/6","1/3","1/2","2/3"],k:2,p:"Genap: 2, 4, 6 → 3/6 = 1/2."},
+{j:"SMP",m:"Peluang",t:"mudah",tp:"pg",s:ico("🎲",1),q:"Sebuah dadu dilempar sekali. Peluang muncul mata dadu genap adalah ...",o:["1/6","1/3","1/2","2/3"],k:2,p:"Genap: 2, 4, 6 → 3/6 = 1/2."},
 {j:"SMP",m:"Statistika",t:"mudah",tp:"isian",s:TN,q:"Rata-rata nilai kelima siswa tersebut adalah ...",k:80,p:"(80+70+90+60+100)/5 = 400/5 = 80."},
 {j:"SMP",m:"Persamaan Linear",t:"sedang",tp:"pg",q:"Gradien garis y = 3x − 5 adalah ...",o:["−5","3","5","−3"],k:1,p:"Pada y = mx + c, gradien m = 3."},
 {j:"SMP",m:"Aljabar",t:"sedang",tp:"pg",q:"Bentuk sederhana dari 3a + 2b − a + 4b adalah ...",o:["2a + 6b","4a + 6b","2a + 2b","3a + 6b"],k:0,p:"(3a − a) + (2b + 4b) = 2a + 6b."},
@@ -115,7 +125,7 @@ const PG=(j,m,t,q,c,w,p,s)=>{const o=shuf(U([c,...w].map(String)).slice(0,4));re
 const IS=(j,m,t,q,k,p,s)=>({j,m,t,tp:"isian",q,s,k,p});
 const BS=(j,m,t,q,a,p)=>({j,m,t,tp:"bs",q,o:a.map(x=>x[0]),k:a.map(x=>x[1]),p});
 const PK=(j,m,t,q,a,p)=>{const b=shuf(a);return{j,m,t,tp:"pgk",q,o:b.map(x=>String(x[0])),k:b.flatMap((x,i)=>x[1]?[i]:[]),p}};
-const TBL=(h,n,v)=>`<table class=t><tr><th>${h}<th>Jumlah`+n.map((x,i)=>`<tr><td>${x}<td>${v[i]}`).join("")+"</table>";
+const TBL=(h,n,v)=>`<table class=t><tr><th>${h}<th>Jumlah`+n.map((x,i)=>`<tr><td>${x}<td>${v[i]}`).join("")+"</table>"+bars(n,v);
 const S3=()=>{const f=R(0,1),x=R(3,9),y=R(3,9);return[`${x} × ${y} = ${x*y+(f?0:R(1,5))}`,!!f]};
 const S2=()=>{const f=R(0,1),a=R(3,12);return[`${a}² = ${a*a+(f?0:R(1,4))}`,!!f]};
 const L1=()=>{const f=R(0,1),c=R(2,6);return[`lim x→${c} (x² − ${c*c})/(x − ${c}) = ${2*c+(f?0:1)}`,!!f]};
@@ -124,10 +134,10 @@ const GEN={
 SD:[
 ()=>{const a=R(120,480),b=R(120,480),c=a+b;return PG("SD","Operasi Bilangan","mudah",`${a} + ${b} = ...`,c,[c+10,c-10,c+100,c-100],`${a} + ${b} = ${c}.`)},
 ()=>{const a=R(500,900),b=R(100,450),c=a-b;return PG("SD","Operasi Bilangan","mudah",`${a} − ${b} = ...`,c,[c+10,c-10,c+100,c-100],`${a} − ${b} = ${c}.`)},
-()=>{const a=R(12,35),b=R(3,9),c=a*b;return PG("SD","Operasi Bilangan","sedang",`Sebuah kotak berisi ${a} permen. Ada ${b} kotak. Jumlah permen seluruhnya ...`,c,[c+a,c-b,c+10,c-10],`${a} × ${b} = ${c}.`)},
-()=>{const b=R(3,9),c=R(12,40);return IS("SD","Operasi Bilangan","sedang",`${b*c} permen dibagi sama banyak kepada ${b} anak. Setiap anak mendapat ... permen.`,c,`${b*c} : ${b} = ${c}.`)},
+()=>{const a=R(12,35),b=R(3,9),c=a*b;return PG("SD","Operasi Bilangan","sedang",`Sebuah kotak berisi ${a} permen. Ada ${b} kotak. Jumlah permen seluruhnya ...`,c,[c+a,c-b,c+10,c-10],`${a} × ${b} = ${c}.`,ico("📦",b))},
+()=>{const b=R(3,9),c=R(12,40);return IS("SD","Operasi Bilangan","sedang",`${b*c} permen dibagi sama banyak kepada ${b} anak. Setiap anak mendapat ... permen.`,c,`${b*c} : ${b} = ${c}.`,ico("🧒",b))},
 ()=>{const n=R(6,12),a=R(1,3),b=R(1,3),c=`${a+b}/${n}`;return PG("SD","Pecahan","sedang",`${a}/${n} + ${b}/${n} = ...`,c,[`${a+b}/${2*n}`,`${a+b+1}/${n}`,`${a*b}/${n}`,`${a+b+2}/${n}`],`Penyebut sama, jumlahkan pembilang: ${c}.`)},
-()=>{const p=R(6,20),l=R(3,p-1);return IS("SD","Bangun Datar","sedang",`Persegi panjang berukuran ${p} cm × ${l} cm. Luasnya ... cm².`,p*l,`L = ${p} × ${l} = ${p*l}.`)},
+()=>{const p=R(6,20),l=R(3,p-1);return IS("SD","Bangun Datar","sedang",`Persegi panjang berukuran ${p} cm × ${l} cm. Luasnya ... cm².`,p*l,`L = ${p} × ${l} = ${p*l}.`,rect(p,l))},
 ()=>{const v=[R(5,20),R(5,20),R(5,20),R(5,20)],c=v[0]+v[1]+v[2]+v[3];return PG("SD","Data Sederhana","mudah","Berdasarkan tabel, jumlah seluruh buah adalah ...",c,[c+1,c-1,c+5,c-5],`Jumlahkan semua data = ${c}.`,TBL("Buah",["Apel","Jeruk","Mangga","Pisang"],v))},
 ()=>{const n=R(2,5);return PK("SD","Operasi Bilangan","sedang",`Pilih semua bilangan kelipatan ${n}.`,[[n*R(2,5),1],[n*R(6,9),1],[n*R(10,12)+1,0],[n*R(2,8)+1,0]],`Kelipatan ${n} habis dibagi ${n}.`)},
 ()=>BS("SD","Operasi Bilangan","sedang","Tentukan benar atau salah.",[S3(),S3(),S3()],"Hitung hasil kali tiap pernyataan lalu bandingkan.")
@@ -135,10 +145,10 @@ SD:[
 SMP:[
 ()=>{const x=R(2,12),a=R(2,6),b=R(1,15);return PG("SMP","Persamaan Linear","sedang",`Penyelesaian dari ${a}x + ${b} = ${a*x+b} adalah x = ...`,x,[x+1,x-1,x+2,x*2],`${a}x = ${a*x}, sehingga x = ${x}.`)},
 ()=>{const p=R(2,6),q=R(2,9);return PG("SMP","Aljabar","sedang",`Bentuk ${p}(x + ${q}) sama dengan ...`,`${p}x + ${p*q}`,[`${p}x + ${q}`,`x + ${p*q}`,`${p+q}x`,`${p}x + ${p+q}`],`Sifat distributif: ${p}x + ${p*q}.`)},
-()=>{const t=[[3,4,5],[5,12,13],[8,15,17],[6,8,10],[9,12,15]][R(0,4)];return IS("SMP","Geometri","sedang",`Segitiga siku-siku memiliki sisi tegak ${t[0]} cm dan ${t[1]} cm. Panjang sisi miringnya ... cm.`,t[2],`√(${t[0]}² + ${t[1]}²) = ${t[2]}.`)},
-()=>{const a=R(4,10),b=R(11,16),t=2*R(2,6),L=(a+b)*t/2;return IS("SMP","Geometri","sulit",`Trapesium memiliki sisi sejajar ${a} cm dan ${b} cm serta tinggi ${t} cm. Luasnya ... cm².`,L,`L = (${a}+${b}) × ${t} / 2 = ${L}.`)},
+()=>{const t=[[3,4,5],[5,12,13],[8,15,17],[6,8,10],[9,12,15]][R(0,4)];return IS("SMP","Geometri","sedang",`Segitiga siku-siku memiliki sisi tegak ${t[0]} cm dan ${t[1]} cm. Panjang sisi miringnya ... cm.`,t[2],`√(${t[0]}² + ${t[1]}²) = ${t[2]}.`,tri(t[0],t[1]))},
+()=>{const a=R(4,10),b=R(11,16),t=2*R(2,6),L=(a+b)*t/2;return IS("SMP","Geometri","sulit",`Trapesium memiliki sisi sejajar ${a} cm dan ${b} cm serta tinggi ${t} cm. Luasnya ... cm².`,L,`L = (${a}+${b}) × ${t} / 2 = ${L}.`,trap(a,b,t))},
 ()=>{const m=R(60,90),d=[R(-9,9),R(-9,9),R(-9,9),R(-9,9)];d.push(-d[0]-d[1]-d[2]-d[3]);return IS("SMP","Statistika","mudah",`Rata-rata dari data ${shuf(d.map(x=>m+x)).join(", ")} adalah ...`,m,`Jumlah data = ${5*m}, dibagi 5 = ${m}.`)},
-()=>{const r=R(2,7),b=R(2,7);return PG("SMP","Peluang","sedang",`Kantong berisi ${r} bola merah dan ${b} bola biru. Satu bola diambil acak. Peluang terambil bola merah adalah ...`,`${r}/${r+b}`,[`${b}/${r+b}`,`${r}/${b}`,`${r+b}/${r}`],`Peluang = ${r} dari ${r+b} bola.`)},
+()=>{const r=R(2,7),b=R(2,7);return PG("SMP","Peluang","sedang",`Kantong berisi ${r} bola merah dan ${b} bola biru. Satu bola diambil acak. Peluang terambil bola merah adalah ...`,`${r}/${r+b}`,[`${b}/${r+b}`,`${r}/${b}`,`${r+b}/${r}`],`Peluang = ${r} dari ${r+b} bola.`,balls(r,b))},
 ()=>{const m=R(2,6),c=R(1,9);return PG("SMP","Persamaan Linear","sedang",`Garis melalui titik (0, ${c}) dan (2, ${c+2*m}). Gradien garis tersebut adalah ...`,m,[c,2*m,m+1,m+2],`Gradien = ${2*m}/2 = ${m}.`)},
 ()=>{const x=R(2,9),k=R(2,5),a=R(1,5);return PK("SMP","Aljabar","sulit",`Pilih semua persamaan yang memiliki penyelesaian x = ${x}.`,[[`x + ${a} = ${x+a}`,1],[`${k}x = ${k*x}`,1],[`x − ${a} = ${x+a+1}`,0],[`${k}x = ${k*x+1}`,0]],`Substitusikan x = ${x} ke tiap persamaan.`)},
 ()=>BS("SMP","Aljabar","mudah","Tentukan benar atau salah.",[S2(),S2(),S2()],"Hitung kuadrat tiap bilangan.")
